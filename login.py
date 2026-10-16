@@ -1,7 +1,9 @@
 from tkinter import * 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from typing import Self
+from views.sistema_principal import *
 
 class Login(ttk.Frame):
     def __init__(self, ventana):
@@ -20,6 +22,23 @@ class Login(ttk.Frame):
 
         def Salir():
             self.ven.destroy()
+            
+        def Ingresar():
+            try:
+                if(self.user.get() == "" or self.pas.get() == ""):
+                    messagebox.showerror("Error", "Debe ingresar usuario y contraseña")
+                else:
+                    usuario = self.user.get()
+                    clave = self.pas.get()
+
+                    if usuario == "admin" and clave == "1234":
+                        messagebox.showinfo("Exito", "¡Inicio de sesión exitoso!, credenciales correctas")
+                        self.ven.destroy()
+                        SistemaPrincipal()
+                    else:
+                        messagebox.showerror("Login", "Usuario o contraseña incorrectos")
+            except:
+                messagebox.showerror("Error", "Error al intentar iniciar sesión")
 
         #Ponemos un boton de salit
         self.btnSalir = tk.Button(self.ven, text="X", width=6, height=2, command=Salir)
@@ -57,6 +76,6 @@ class Login(ttk.Frame):
         self.txtPass.place(x=60, y=310, width=230, height=30)
         self.txtPass.config(bg="#FFFFFF")
 
-        self.btnIngresar = tk.Button(self.ven, text="INGRESAR", width=20, height=2)
+        self.btnIngresar = tk.Button(self.ven, text="INGRESAR", width=20, height=2, command=Ingresar)
         self.btnIngresar.place(x=90, y=360)
         self.btnIngresar.config(bg="#FF0000", fg="#FFFFFF", font=("Arial", 10, "bold"), relief="flat", cursor="hand2")
